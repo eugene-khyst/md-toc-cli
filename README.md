@@ -16,20 +16,20 @@ HTML anchor elements are added to level 2-6 headings to make table of content it
 ## <a id="c64518704ce0c0d5501a45763f464276"></a>Usage
 
 1. Make sure Node.js 14.x LTS or newer is installed.
-2. Install markdown-toc-cli as a global package
+2. Install md-toc-cli as a global package
     ```bash
-    npm i -g markdown-toc-cli
+    npm i -g md-toc-cli
     ```
 3. Insert table of contents to the `README.md` file in the current directory
     ```bash
-    markdown-toc-cli -i
+    md-toc-cli -i
     ```
 4. Read the manual
     ```bash
-    $ markdown-toc-cli --help
+    $ md-toc-cli --help
     ```
     ```
-    markdown-toc-cli [file]
+    md-toc-cli [file]
 
     Automatically insert or update a clickable table of contents (TOC) into your Mar
     kdown documents based on its headings (levels 2-6).
@@ -77,10 +77,10 @@ HTML anchor elements are added to level 2-6 headings to make table of content it
     ```
 2. Insert table of contents to `test.md` and backup the original file
     ```bash
-    markdown-toc-cli test.md -i -s 'orig'
+    md-toc-cli test.md -i -s 'orig'
     ```
 3. A backup `test.md.orig` is created for original file `test.md`.
-4. A clickagble table of contents is inserted into `test.md`
+4. A clickable table of contents is inserted into `test.md`
     ```
     # Heading 1
 
@@ -118,3 +118,9 @@ HTML anchor elements are added to level 2-6 headings to make table of content it
 
     ### <a id="190610646bd9620804f17518443a4d54"></a>Heading 3c
     ```
+5. Make any change to the level 2-6 headings (e.g. delete level 5-6 headings and rename level 3 headings).
+6. Update the table of contents in `test.md`
+    ```bash
+    md-toc-cli test.md -i
+    ```
+7. The table of contents in `test.md` is updated according to level 2-6 headings.
