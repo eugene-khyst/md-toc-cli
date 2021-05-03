@@ -1,0 +1,34 @@
+{
+  "name": "markdown-toc-cli",
+  "version": "1.0.0",
+  "description": "Automatically insert or update a clickable table of contents (TOC) into your Markdown documents based on its headings using CLI or JavaScript module.",
+  "type": "module",
+  "bin": "./bin/index.js",
+  "main": "./lib/index.js",
+  "directories": {
+    "bin": "./bin",
+    "lib": "./lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evgeniy-khist/markdown-toc.git"
+  },
+  "keywords": [
+    "markdown",
+    "toc",
+    "table-of-contents",
+    "cli"
+  ],
+  "author": "Evgeniy Khyst",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/evgeniy-khist/markdown-toc/issues"
+  },
+  "homepage": "https://github.com/evgeniy-khist/markdown-toc#readme",
+  "dependencies": {
+    "yargs": "^17.0.0"
+  }
+}
