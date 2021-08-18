@@ -1,6 +1,6 @@
 {
   "name": "md-toc-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Automatically insert or update a clickable table of contents (TOC) into your Markdown documents based on its headings using CLI or JavaScript module.",
   "type": "module",
   "bin": "./bin/index.js",
@@ -10,7 +10,9 @@
     "lib": "./lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint '**/*.js' && prettier --check '**/*.js'",
+    "format": "prettier --write '**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,9 @@
     "table-of-contents",
     "cli"
   ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "author": "Evgeniy Khyst",
   "license": "Apache-2.0",
   "bugs": {
@@ -30,5 +35,9 @@
   "homepage": "https://github.com/evgeniy-khist/markdown-toc#readme",
   "dependencies": {
     "yargs": "^17.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "prettier": "^2.3.2"
   }
 }
