@@ -20,7 +20,7 @@ Automatically insert or update a clickable table of contents (TOC) into your Mar
 Table of contents is created from level 2-6 headings and inserted after level 1 heading or at the beginning of the file.
 It is expected that there are zero or one level 1 heading.
 
-HTML anchor elements are added to level 2-6 headings to make table of content items clickable, e.g. `<a id="...">...</a>`.
+HTML anchor elements are added to level 2-6 headings to make table of content items clickable, e.g. `<a id="..."></a>`.
 
 ## <a id="c64518704ce0c0d5501a45763f464276"></a>Usage
 
@@ -133,17 +133,3 @@ HTML anchor elements are added to level 2-6 headings to make table of content it
    md-toc-cli test.md -i
    ```
 7. The table of contents in `test.md` is updated according to level 2-6 headings.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
