@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-import yargs from 'yargs';
-import createMarkdownToc from '../lib/index.js';
+const yargs = require('yargs');
+const markdownToc = require('../lib');
+const version = require('../../package.json').version;
 
 yargs(process.argv.slice(2))
   .command(
@@ -17,8 +18,8 @@ yargs(process.argv.slice(2))
         })
         .option('i', {
           alias: 'in-place',
-          default: false,
-          describe: 'Edit files in place',
+          default: markdownToc.defaults.inPlace,
+          describe: 'Edit file in place',
           type: 'boolean',
         })
         .option('s', {
@@ -30,27 +31,29 @@ yargs(process.argv.slice(2))
         })
         .option('t', {
           alias: 'tab-width',
-          default: 2,
+          default: markdownToc.defaults.tabWidth,
           describe: 'The number of spaces per indentation-level',
           type: 'number',
         })
         .option('l', {
-          alias: 'list-item-sign',
+          alias: 'list-item-symbol',
           choices: ['-', '*', '+'],
-          default: '-',
-          describe: 'Sign used front of line items to create an unordered list',
+          default: markdownToc.defaults.listItemSymbol,
+          describe:
+            'Symbol used in front of line items to create an unordered list',
           type: 'string',
         })
         .option('n', {
           alias: 'no-attribution',
-          default: false,
+          default: markdownToc.defaults.noAttribution,
           describe:
             'Do not add an attribution "Table of contents is made with ..."',
           type: 'boolean',
         });
     },
     async function (argv) {
-      await createMarkdownToc(argv);
+      await markdownToc.insertOrUpdateTocInFile(argv.file, argv);
     }
   )
+  .version(version)
   .help().argv;

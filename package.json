@@ -1,18 +1,16 @@
 {
   "name": "md-toc-cli",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Automatically insert or update a clickable table of contents (TOC) into your Markdown documents based on its headings using CLI or JavaScript module.",
-  "type": "module",
-  "bin": "./bin/index.js",
-  "main": "./lib/index.js",
-  "directories": {
-    "bin": "./bin",
-    "lib": "./lib"
-  },
+  "type": "commonjs",
+  "bin": "./src/bin/index.js",
+  "main": "./src/lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint '**/*.js' && prettier --check '**/*.js'",
-    "format": "prettier --write '**/*.js'"
+    "lint": "eslint '**/*.js'; prettier --check '**/*.js'",
+    "format": "prettier --write '**/*.js'",
+    "test": "mocha",
+    "start": "./src/bin/index.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -37,7 +35,10 @@
     "yargs": "^17.0.0"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
     "eslint": "^7.32.0",
+    "husky": "^7.0.1",
+    "mocha": "^9.1.0",
     "prettier": "^2.3.2"
   }
 }

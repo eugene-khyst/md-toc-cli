@@ -1,0 +1,5 @@
+.vscode
+test
+.eslintrc.yml
+.prettierrc.yml
+.mocharc.yml
