@@ -9,7 +9,6 @@
 <!-- Table of contents is made with https://github.com/evgeniy-khist/markdown-toc -->
 
 ![npm version](https://img.shields.io/npm/v/md-toc-cli)
-![npm bundle size](https://img.shields.io/bundlephobia/min/md-toc-cli)
 ![npm downloads](https://img.shields.io/npm/dt/md-toc-cli)
 ![Lines of code](https://img.shields.io/tokei/lines/github/evgeniy-khist/markdown-toc)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/evgeniy-khist/markdown-toc)
