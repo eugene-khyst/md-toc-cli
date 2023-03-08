@@ -54,15 +54,7 @@ export const insertOrUpdateToc = (content, options = {}) => {
 
   let newTocStart = 0;
 
-  const headingCounters = new Array(6).fill(0);
-
-  const getHash = (headingLevel) => {
-    let hash = `${headingCounters[0]}`;
-    for (let i = 1; i <= headingLevel; i += 1) {
-      hash += `-${headingCounters[headingLevel]}`;
-    }
-    return hash;
-  };
+  const headingCounters = new Array(5).fill(0);
 
   for (let i = 0; i < lines.length; i += 1) {
     let line = lines[i];
@@ -108,7 +100,7 @@ export const insertOrUpdateToc = (content, options = {}) => {
           headingCounters[headingLevel] += 1;
           headingCounters.fill(0, headingLevel + 1);
 
-          hash = getHash(headingLevel);
+          hash = headingCounters.filter((count) => count > 0).join('-');
 
           const paddingSize = tabWidth * headingLevel;
           const padding = ' '.repeat(paddingSize);
