@@ -1,10 +1,10 @@
-# Markdown Table of Contents CLI Generator
+# <a id="0"></a>Markdown Table of Contents CLI Generator
 
-- [Introduction](#0b79795d3efc95b9976c7c5b933afce2)
-- [Usage](#c64518704ce0c0d5501a45763f464276)
-  - [CLI](#91af5705f16502125e8b2187e64202c0)
-  - [npm package](#15ba410a3a8e5f948e21856c9bb7f622)
-- [Example](#0a52730597fb4ffa01fc117d9e71e3a9)
+- [Introduction](#1)
+- [Usage](#2)
+  - [CLI](#2-1)
+  - [npm package](#2-2)
+- [Example](#3)
 
 <!-- Table of contents is made with https://github.com/evgeniy-khist/markdown-toc -->
 
@@ -14,27 +14,30 @@
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/evgeniy-khist/markdown-toc)
 ![GitHub licence](https://img.shields.io/github/license/evgeniy-khist/markdown-toc)
 
-## <a id="0b79795d3efc95b9976c7c5b933afce2"></a>Introduction
+## <a id="1"></a>Introduction
 
 Automatically insert or update a clickable table of contents (TOC) into your Markdown documents based on its headings using CLI or JavaScript module.
 
-Table of contents is created from level 2-6 headings and inserted after level 1 heading or at the beginning of the file.
-It is expected that there are zero or one level 1 heading.
+Table of contents is created from level 2-6 headings (e.g., `## Heading`, `### Heading` etc.) and inserted after level 1 heading or at the beginning of the file.
 
-HTML anchor elements are added to level 2-6 headings to make table of content items clickable, e.g. `<a id="..."></a>`.
+It is expected that there are zero or one level 1 heading (e.g., `# Heading`).
 
-## <a id="c64518704ce0c0d5501a45763f464276"></a>Usage
+HTML anchor elements are added to level 1-6 headings to make table of content items clickable, e.g. `<a id="..."></a>`.
 
-### <a id="91af5705f16502125e8b2187e64202c0"></a>CLI
+Anchor at level 1 heading allows creating [Back to top](#0) links as `[Back to top](#0)`.
 
-1. Make sure Node.js 14.x LTS or newer is installed.
+## <a id="2"></a>Usage
+
+### <a id="2-1"></a>CLI
+
+1. Make sure Node.js 18.x LTS or newer is installed.
 2. Install md-toc-cli as a global package
    ```bash
    npm i -g md-toc-cli
    ```
 3. Insert table of contents to the `README.md` file in the current directory
    ```bash
-   md-toc-cli -i
+   md-toc-cli -i README.md
    ```
 4. Read the manual
 
@@ -45,42 +48,50 @@ HTML anchor elements are added to level 2-6 headings to make table of content it
    ```
    md-toc-cli [file]
 
-   Automatically insert or update a clickable table of contents (TOC) into your Mar
-   kdown documents based on its headings (levels 2-6).
+   Automatically insert or update a clickable table of contents (TOC) into your
+   Markdown documents based on its headings (levels 2-6).
 
    Positionals:
-   file  Markdown file for inserting or updating table of contents in
-                                                   [string] [default: "README.md"]
+     file  Markdown file for inserting or updating table of contents in
+                                                    [string] [default: "README.md"]
 
    Options:
-         --version         Show version number                            [boolean]
-         --help            Show help                                      [boolean]
-     -i, --in-place        Edit file in place            [boolean] [default: false]
-     -s, --suffix          The extension of a backup copy. If no extension is suppl
-                           ied, the original file is overwritten without making a b
-                           ackup. This option implies -i.                  [string]
-     -t, --tab-width       The number of spaces per indentation-level
+         --version           Show version number                          [boolean]
+         --help              Show help                                    [boolean]
+     -i, --in-place          Edit file in place          [boolean] [default: false]
+     -s, --suffix            The extension of a backup copy. If no extension is
+                             supplied, the original file is overwritten without
+                             making a backup. This option implies -i.      [string]
+     -t, --tab-width         The number of spaces per indentation-level
                                                               [number] [default: 2]
-     -l, --list-item-sign  Sign used front of line items to create an unordered lis
-                           t       [string] [choices: "-", "*", "+"] [default: "-"]
-     -n, --no-attribution  Do not add an attribution "Table of contents is made wit
-                           h ..."                        [boolean] [default: false]
+     -l, --list-item-symbol  Symbol used in front of line items to create an
+                             unordered list
+                                   [string] [choices: "-", "*", "+"] [default: "-"]
+     -n, --no-attribution    Do not add an attribution "Table of contents is made
+                             with ..."                   [boolean] [default: false]
    ```
 
-### <a id="15ba410a3a8e5f948e21856c9bb7f622"></a>npm package
+### <a id="2-2"></a>npm package
 
 1. Make sure Node.js 14.x LTS or newer is installed.
 2. Install md-toc-cli
    ```bash
    npm i md-toc-cli
    ```
-3. Import md-toc-cli
+3. Import md-toc-cli functions
    ```javascript
-   const markdownToc = require('md-toc-cli');
+   import { insertOrUpdateToc, insertOrUpdateTocInFile } from 'md-toc-cli';
    ```
-4. Programmatically insert or update the table of contents in a Markdown file
+4. Programmatically insert or update the table of contents in a Markdown string or file
    ```javascript
-   await markdownToc.insertOrUpdateTocInFile('README.md', {
+   insertOrUpdateToc(markdownContent, {
+     tabWidth: 2,
+     listItemSymbol: '-',
+     noAttribution: false,
+   });
+   ```
+   ```javascript
+   await insertOrUpdateTocInFile('README.md', {
      inPlace: false,
      suffix: 'orig',
      tabWidth: 2,
@@ -88,16 +99,8 @@ HTML anchor elements are added to level 2-6 headings to make table of content it
      noAttribution: false,
    });
    ```
-5. Or programmatically insert or update the table of contents in a string with a Markdown content
-   ```javascript
-   await markdownToc.insertOrUpdateToc(markdownContent, {
-     tabWidth: 2,
-     listItemSymbol: '-',
-     noAttribution: false,
-   });
-   ```
 
-## <a id="0a52730597fb4ffa01fc117d9e71e3a9"></a>Example
+## <a id="3"></a>Example
 
 1. Create file `test.md` as follows
 
@@ -135,48 +138,48 @@ HTML anchor elements are added to level 2-6 headings to make table of content it
 4. A clickable table of contents is inserted into `test.md`
 
    ```markdown
-   # Heading 1
+   # <a id="0"></a>Heading 1
 
-   - [Heading 2a](#62bae9069304b425d6174518f6e08820)
-   - [Heading 3aa](#9faaae3ddf5880387d6abbd7854997a8)
-     - [Heading 4a](#3cbd898c604d920d4ce96821528c8b1a)
-       - [Heading 5a](#cf5e1d8b5dd85fa053ec416763f6bebd)
-       - [Heading 6a](#eab2de38622860a06fe06ad545aaf6de)
-   - [Heading 3ab](#ce97d28cdc95ab9f084992b83358ae06)
-   - [Heading 2b](#4fd8e2d675f1736846acf45b5bcd5db1)
-   - [Heading 3b](#c8ec0f1c9a499a10aa077fef74fe2d55)
-     - [Heading 4b](#937661bf28aaa176c9d101c6453ad1c5)
-   - [Heading 2c](#2f26fb85484044281e7a9d848c8b4eac)
-   - [Heading 3c](#190610646bd9620804f17518443a4d54)
+   - [Heading 2a](#1)
+     - [Heading 3aa](#1-1)
+       - [Heading 4a](#1-1-1)
+         - [Heading 5a](#1-1-1-1)
+           - [Heading 6a](#1-1-1-1-1)
+     - [Heading 3ab](#1-2)
+   - [Heading 2b](#2)
+     - [Heading 3b](#2-1)
+       - [Heading 4b](#2-1-1)
+   - [Heading 2c](#3)
+     - [Heading 3c](#3-1)
 
    <!-- Table of contents is made with https://github.com/evgeniy-khist/markdown-toc -->
 
-   ## <a id="62bae9069304b425d6174518f6e08820"></a>Heading 2a
+   ## <a id="1"></a>Heading 2a
 
-   ### <a id="9faaae3ddf5880387d6abbd7854997a8"></a>Heading 3aa
+   ### <a id="1-1"></a>Heading 3aa
 
-   #### <a id="3cbd898c604d920d4ce96821528c8b1a"></a>Heading 4a
+   #### <a id="1-1-1"></a>Heading 4a
 
-   ##### <a id="cf5e1d8b5dd85fa053ec416763f6bebd"></a>Heading 5a
+   ##### <a id="1-1-1-1"></a>Heading 5a
 
-   ###### <a id="eab2de38622860a06fe06ad545aaf6de"></a>Heading 6a
+   ###### <a id="1-1-1-1-1"></a>Heading 6a
 
-   ### <a id="ce97d28cdc95ab9f084992b83358ae06"></a>Heading 3ab
+   ### <a id="1-2"></a>Heading 3ab
 
-   ## <a id="4fd8e2d675f1736846acf45b5bcd5db1"></a>Heading 2b
+   ## <a id="2"></a>Heading 2b
 
-   ### <a id="c8ec0f1c9a499a10aa077fef74fe2d55"></a>Heading 3b
+   ### <a id="2-1"></a>Heading 3b
 
-   #### <a id="937661bf28aaa176c9d101c6453ad1c5"></a>Heading 4b
+   #### <a id="2-1-1"></a>Heading 4b
 
-   ## <a id="2f26fb85484044281e7a9d848c8b4eac"></a>Heading 2c
+   ## <a id="3"></a>Heading 2c
 
-   ### <a id="190610646bd9620804f17518443a4d54"></a>Heading 3c
+   ### <a id="3-1"></a>Heading 3c
    ```
 
 5. Make any change to the level 2-6 headings (e.g. delete level 5-6 headings and rename level 3 headings).
 6. Update the table of contents in `test.md`
    ```bash
-   md-toc-cli test.md -i
+   md-toc-cli -i test.md
    ```
-7. The table of contents in `test.md` is updated according to level 2-6 headings.
+7. The table of contents in `test.md` is updated according to the level 2-6 headings.

@@ -1,13 +1,25 @@
 #!/usr/bin/env node
 
-const yargs = require('yargs');
-const markdownToc = require('../lib');
-const version = require('../../package.json').version;
+import * as fs from 'fs/promises';
+import yargs from 'yargs/yargs';
+import { defaultOptions, insertOrUpdateTocInFile } from '../lib/index.js';
+
+const getVersion = async () => {
+  try {
+    const pkg = JSON.parse(
+      await fs.readFile(new URL('../../package.json', import.meta.url), 'utf8')
+    );
+    return pkg.version;
+  } catch (e) {
+    return false;
+  }
+};
 
 yargs(process.argv.slice(2))
   .command(
     ['$0 [file]'],
     'Automatically insert or update a clickable table of contents (TOC) into your Markdown documents based on its headings (levels 2-6).',
+    /* eslint-disable no-shadow */
     (yargs) => {
       yargs
         .positional('file', {
@@ -18,7 +30,7 @@ yargs(process.argv.slice(2))
         })
         .option('i', {
           alias: 'in-place',
-          default: markdownToc.defaults.inPlace,
+          default: defaultOptions.inPlace,
           describe: 'Edit file in place',
           type: 'boolean',
         })
@@ -31,29 +43,30 @@ yargs(process.argv.slice(2))
         })
         .option('t', {
           alias: 'tab-width',
-          default: markdownToc.defaults.tabWidth,
+          default: defaultOptions.tabWidth,
           describe: 'The number of spaces per indentation-level',
           type: 'number',
         })
         .option('l', {
           alias: 'list-item-symbol',
           choices: ['-', '*', '+'],
-          default: markdownToc.defaults.listItemSymbol,
+          default: defaultOptions.listItemSymbol,
           describe:
             'Symbol used in front of line items to create an unordered list',
           type: 'string',
         })
         .option('n', {
           alias: 'no-attribution',
-          default: markdownToc.defaults.noAttribution,
+          default: defaultOptions.noAttribution,
           describe:
             'Do not add an attribution "Table of contents is made with ..."',
           type: 'boolean',
         });
     },
-    async function (argv) {
-      await markdownToc.insertOrUpdateTocInFile(argv.file, argv);
+    async (argv) => {
+      await insertOrUpdateTocInFile(argv.file, argv);
     }
   )
-  .version(version)
-  .help().argv;
+  .version(await getVersion())
+  .help()
+  .parse();
