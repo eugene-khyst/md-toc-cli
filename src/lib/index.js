@@ -1,7 +1,5 @@
-const constants = require('fs').constants;
-const fs = require('fs/promises');
-const EOL = require('os').EOL;
-const createHash = require('crypto').createHash;
+import * as fs from 'fs/promises';
+import { EOL } from 'os';
 
 /**
  * Insert the substring B into string A at a specific position, optionally deleting some characters from string A.
@@ -11,151 +9,157 @@ const createHash = require('crypto').createHash;
  * @param {string} substr - the substring to insert.
  * @returns
  */
-function insert(str, start, delCount, substr) {
-  return str.slice(0, start) + substr + str.slice(start + delCount);
-}
+const insertSubstring = (str, start, delCount, substr) =>
+  str.slice(0, start) + substr + str.slice(start + delCount);
 
-module.exports = {
-  defaults: {
-    inPlace: false,
-    tabWidth: 2,
-    listItemSymbol: '-',
-    noAttribution: false,
-  },
+const attribution =
+  '<!-- Table of contents is made with https://github.com/evgeniy-khist/markdown-toc -->';
 
-  attribution:
-    '<!-- Table of contents is made with https://github.com/evgeniy-khist/markdown-toc -->',
+/**
+ * The configuration for the TOC.
+ * @typedef {Object} Options
+ * @property {number} tabWidth - The number of spaces per indentation-level.
+ * @property {number} listItemSymbol - Symbol used in front of line items to create an unordered list.
+ * @property {boolean} noAttribution - Add or not an attribution "Table of contents is made with ...".
+ * @property {boolean} inPlace - Edit files in place or print the result to console.
+ * @property {string} suffix - The extension of a backup copy. If no extension is supplied, the original file is overwritten without making a backup.
+ */
+export const defaultOptions = {
+  tabWidth: 2,
+  listItemSymbol: '-',
+  noAttribution: false,
+  inPlace: false,
+  suffix: null,
+};
 
-  /**
-   * Insert or update a table of contents for a Markdown content.
-   * @param {object} options - Configuration for the TOC.
-   * @param {number} options.tabWidth - The number of spaces per indentation-level.
-   * @param {number} options.listItemSymbol - Symbol used in front of line items to create an unordered list.
-   * @param {boolean} options.noAttribution - Add or not an attribution "Table of contents is made with ...".
-   * @returns {string} - The Markdown content with the inserted or updated TOC.
-   */
-  insertOrUpdateToc: function (content, options) {
-    options = { ...this.defaults, ...options };
+/**
+ * Insert or update a table of contents for a Markdown content.
+ * @param {string} content - A Markdown content
+ * @param {Options} options - An {@link Options} object.
+ * @returns {string} - The Markdown content with the inserted or updated TOC.
+ */
+export const insertOrUpdateToc = (content, options = {}) => {
+  const { tabWidth, listItemSymbol, noAttribution } = {
+    ...defaultOptions,
+    ...options,
+  };
 
-    const matches = Array.from(
-      content.matchAll(/^(#{2,6})(\s+)(<a\s+.*><\/a>)?(.+)(\r?\n)?/gm)
-    ).reverse();
+  const toc = [];
+  const result = [];
+  const lines = content.split(/\r?\n/);
 
-    if (matches.length == 0) {
-      throw 'No headings level 2-6 found';
+  let oldTocStart = -1;
+  let oldTocEnd = -1;
+  let attributionLineIndex = -1;
+
+  let newTocStart = 0;
+
+  const headingCounters = new Array(6).fill(0);
+
+  const getHash = (headingLevel) => {
+    let hash = `${headingCounters[0]}`;
+    for (let i = 1; i <= headingLevel; i += 1) {
+      hash += `-${headingCounters[headingLevel]}`;
+    }
+    return hash;
+  };
+
+  for (let i = 0; i < lines.length; i += 1) {
+    let line = lines[i];
+
+    if (oldTocEnd < 0) {
+      if (line.match(/^\s*[-*+]\s+\[.+\]\(#[\w-]+\)$/)) {
+        oldTocStart = oldTocStart < 0 ? i : oldTocStart;
+      } else if (oldTocStart >= 0) {
+        oldTocEnd = i;
+      }
     }
 
-    const toc = [];
-
-    for (const match of matches) {
-      const level = match[1];
-      const spaces = match[2];
-      const anchor = match[3];
-      const title = match[4];
-      const hash = createHash('md5').update(title).digest('hex');
-      content = insert(
-        content,
-        match.index + level.length + spaces.length,
-        anchor ? anchor.length : 0,
-        `<a id="${hash}"></a>`
-      );
-      toc.unshift(
-        ' '.repeat(options.tabWidth * (level.length - 2)) +
-          options.listItemSymbol +
-          ` [${title}](#${hash})`
-      );
+    if (line === attribution) {
+      attributionLineIndex = i;
     }
 
-    const lines = content.split(/\r?\n/);
+    const isOldTocLine =
+      oldTocStart >= 0 &&
+      i >= oldTocStart &&
+      (oldTocEnd < 0 || (oldTocEnd > oldTocStart && i <= oldTocEnd));
 
-    // Remove TOC from content if exists
-    let matched = false;
-    let tocStart = -1;
-    let tocEnd = -1;
+    const isAttributionLine =
+      attributionLineIndex >= 0 &&
+      i >= attributionLineIndex &&
+      i <= attributionLineIndex + 1;
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      if (line.match(/^\s*[-*+]\s+\[.+\]\(#\w+\)$/)) {
-        if (!matched) {
-          tocStart = i;
-        }
-        matched = true;
-      } else if (matched) {
-        if (line.match(/^\s*$/)) {
-          tocEnd = i + 1;
+    const skipLine = isOldTocLine || isAttributionLine;
+
+    if (!skipLine) {
+      const headingMatch = line.match(/^(#{1,6})(\s+)(<a\s+.*><\/a>)?(.+)$/);
+      if (headingMatch) {
+        const level = headingMatch[1];
+        const spaces = headingMatch[2];
+        const anchor = headingMatch[3];
+        const title = headingMatch[4];
+
+        let hash = '0';
+
+        if (level.length === 1) {
+          newTocStart = i + 1;
         } else {
-          tocEnd = i;
+          const headingLevel = level.length - 2;
+          headingCounters[headingLevel] += 1;
+          headingCounters.fill(0, headingLevel + 1);
+
+          hash = getHash(headingLevel);
+
+          const paddingSize = tabWidth * headingLevel;
+          const padding = ' '.repeat(paddingSize);
+          const tocItem = `${padding}${listItemSymbol} [${title}](#${hash})`;
+          toc.push(tocItem);
         }
-        break;
+
+        line = insertSubstring(
+          line,
+          level.length + spaces.length,
+          anchor ? anchor.length : 0,
+          `<a id="${hash}"></a>`
+        );
+      }
+      result.push(line);
+    }
+  }
+
+  if (toc.length) {
+    if (newTocStart > 0) {
+      toc.unshift('');
+    }
+    if (!noAttribution) {
+      toc.push('', attribution);
+      if (newTocStart === 0) {
+        toc.push('');
       }
     }
+    result.splice(newTocStart, 0, ...toc);
+  }
 
-    if (tocStart >= 0 && tocEnd > tocStart) {
-      lines.splice(tocStart, tocEnd - tocStart);
+  return result.join(EOL);
+};
+
+/**
+ * Insert or update a table of content in a Markdown file.
+ * @param {string} filename - The path to a Markdown file.
+ * @param {Options} options - An {@link Options} object.
+ */
+export const insertOrUpdateTocInFile = async (filename, options = {}) => {
+  const { inPlace, suffix } = { ...defaultOptions, ...options };
+
+  const originalContent = await fs.readFile(filename, 'utf8');
+  const newContent = insertOrUpdateToc(originalContent, options);
+
+  if (inPlace) {
+    if (suffix) {
+      await fs.copyFile(filename, `${filename}.${suffix}`);
     }
-
-    // Remove attribution from content if exists
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      if (line === this.attribution) {
-        lines.splice(i, 2);
-        break;
-      }
-    }
-
-    content = lines.join(EOL);
-
-    const match = /^#\s+.+(\r?\n)/.exec(content);
-    let tocStartPos = 0;
-    let tocStr = toc.join(EOL) + EOL;
-    if (match) {
-      tocStartPos = match.index + match[0].length;
-      tocStr = EOL + tocStr;
-    } else {
-      tocStr = tocStr + EOL;
-    }
-
-    if (!options.noAttribution) {
-      tocStr += EOL + this.attribution + EOL;
-    }
-
-    content = insert(content, tocStartPos, 0, tocStr);
-
-    return content;
-  },
-
-  /**
-   * Insert or update a table of content in a Markdown file.
-   * @param {string} file - The path to a Markdown file.
-   * @param {number} options.tabWidth - The number of spaces per indentation-level.
-   * @param {number} options.listItemSymbol - Symbol used in front of line items to create an unordered list.
-   * @param {boolean} options.noAttribution - Add or not an attribution "Table of contents is made with ...".
-   * @param {boolean} options.inPlace - Edit files in place or print the result to console.
-   * @param {string} options.suffix - The extension of a backup copy. If no extension is supplied, the original file is overwritten without making a backup.
-   */
-  insertOrUpdateTocInFile: async function (file, options) {
-    options = { ...this.defaults, ...options };
-
-    try {
-      await fs.access(file, constants.W_OK);
-    } catch {
-      throw `No such file or no access: ${file}`;
-    }
-    if (!(await fs.stat(file)).isFile()) {
-      throw `Expected file but found directory: ${file}`;
-    }
-
-    const originalContent = await fs.readFile(file, 'utf8');
-
-    const newContent = this.insertOrUpdateToc(originalContent, options);
-
-    if (options.inPlace) {
-      if (options.suffix) {
-        await fs.copyFile(file, file + '.' + options.suffix);
-      }
-      await fs.writeFile(file, newContent, 'utf8');
-    } else {
-      console.log(newContent);
-    }
-  },
+    await fs.writeFile(filename, newContent, 'utf8');
+  } else {
+    console.log(newContent);
+  }
 };

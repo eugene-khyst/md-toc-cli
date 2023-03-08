@@ -1,5 +1,5 @@
 .vscode
 test
-.eslintrc.yml
-.prettierrc.yml
-.mocharc.yml
+.eslintrc.cjs
+.prettierrc.cjs
+.mocharc.cjs
