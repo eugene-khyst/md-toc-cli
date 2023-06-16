@@ -10,7 +10,6 @@
 
 ![npm version](https://img.shields.io/npm/v/md-toc-cli)
 ![npm downloads](https://img.shields.io/npm/dt/md-toc-cli)
-![Lines of code](https://img.shields.io/tokei/lines/github/evgeniy-khist/markdown-toc)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/evgeniy-khist/markdown-toc)
 ![GitHub licence](https://img.shields.io/github/license/evgeniy-khist/markdown-toc)
 
@@ -70,6 +69,8 @@ Anchor at level 1 heading allows creating [Back to top](#0) links as `[Back to t
      -n, --no-attribution    Do not add an attribution "Table of contents is made
                              with ..."                   [boolean] [default: false]
    ```
+
+![md-toc-cli usage](markdown-toc.svg)
 
 ### <a id="2-2"></a>npm package
 
