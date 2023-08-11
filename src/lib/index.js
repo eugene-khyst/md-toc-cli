@@ -13,7 +13,8 @@ const insertSubstring = (str, start, delCount, substr) =>
   str.slice(0, start) + substr + str.slice(start + delCount);
 
 const attribution =
-  '<!-- Table of contents is made with https://github.com/evgeniy-khist/markdown-toc -->';
+  '<!-- Table of contents is made with https://github.com/eugene-khyst/md-toc-cli -->';
+const attributionRegExp = /^<!-- Table of contents is made with (.+) -->/;
 
 /**
  * The configuration for the TOC.
@@ -67,7 +68,7 @@ export const insertOrUpdateToc = (content, options = {}) => {
       }
     }
 
-    if (line === attribution) {
+    if (attributionRegExp.test(line)) {
       attributionLineIndex = i;
     }
 

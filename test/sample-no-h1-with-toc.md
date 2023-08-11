@@ -18,7 +18,7 @@
 - [Heading 3](#3)
   - [Heading 3-1](#3-1)
 
-<!-- Table of contents is made with https://github.com/evgeniy-khist/markdown-toc -->
+<!-- Table of contents is made with https://github.com/eugene-khyst/md-toc-cli -->
 
 ## <a id="1"></a>Heading 1
 

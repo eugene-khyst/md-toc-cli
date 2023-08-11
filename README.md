@@ -6,12 +6,11 @@
   - [npm package](#2-2)
 - [Example](#3)
 
-<!-- Table of contents is made with https://github.com/evgeniy-khist/markdown-toc -->
+<!-- Table of contents is made with https://github.com/eugene-khyst/md-toc-cli -->
 
 ![npm version](https://img.shields.io/npm/v/md-toc-cli)
 ![npm downloads](https://img.shields.io/npm/dt/md-toc-cli)
-![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/evgeniy-khist/markdown-toc)
-![GitHub licence](https://img.shields.io/github/license/evgeniy-khist/markdown-toc)
+![GitHub licence](https://img.shields.io/github/license/eugene-khyst/md-toc-cli)
 
 ## <a id="1"></a>Introduction
 
@@ -24,6 +23,8 @@ It is expected that there are zero or one level 1 heading (e.g., `# Heading`).
 HTML anchor elements are added to level 1-6 headings to make table of content items clickable, e.g. `<a id="..."></a>`.
 
 Anchor at level 1 heading allows creating [Back to top](#0) links as `[Back to top](#0)`.
+
+![md-toc-cli usage](md-toc-cli.svg)
 
 ## <a id="2"></a>Usage
 
@@ -69,8 +70,6 @@ Anchor at level 1 heading allows creating [Back to top](#0) links as `[Back to t
      -n, --no-attribution    Do not add an attribution "Table of contents is made
                              with ..."                   [boolean] [default: false]
    ```
-
-![md-toc-cli usage](markdown-toc.svg)
 
 ### <a id="2-2"></a>npm package
 
@@ -153,7 +152,7 @@ Anchor at level 1 heading allows creating [Back to top](#0) links as `[Back to t
    - [Heading 2c](#3)
      - [Heading 3c](#3-1)
 
-   <!-- Table of contents is made with https://github.com/evgeniy-khist/markdown-toc -->
+   <!-- Table of contents is made with https://github.com/eugene-khyst/md-toc-cli -->
 
    ## <a id="1"></a>Heading 2a
 
