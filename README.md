@@ -73,7 +73,7 @@ Anchor at level 1 heading allows creating [Back to top](#0) links as `[Back to t
 
 ### <a id="2-2"></a>npm package
 
-1. Make sure Node.js 14.x LTS or newer is installed.
+1. Make sure Node.js 18.x LTS or newer is installed.
 2. Install md-toc-cli
    ```bash
    npm i md-toc-cli
