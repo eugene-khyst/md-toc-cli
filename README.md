@@ -1,9 +1,10 @@
-# <a id="0"></a>Markdown Table of Contents CLI Generator
+# <a id="0"></a>Table of contents generator for Markdown
 
 - [Introduction](#1)
 - [Usage](#2)
-  - [CLI](#2-1)
-  - [npm package](#2-2)
+  - [Docker](#2-1)
+  - [npm](#2-2)
+  - [Programmatic](#2-3)
 - [Example](#3)
 
 <!-- Table of contents is made with https://github.com/eugene-khyst/md-toc-cli -->
@@ -14,11 +15,10 @@
 
 ## <a id="1"></a>Introduction
 
-Automatically insert or update a clickable table of contents (TOC) into your Markdown documents based on its headings using CLI or JavaScript module.
+Automatically insert or update a clickable table of contents (TOC) into your Markdown documents based on its headings using CLI or JavaScript module with the perfect support for `README.md` files on GitHub.
 
-Table of contents is created from level 2-6 headings (e.g., `## Heading`, `### Heading` etc.) and inserted after level 1 heading or at the beginning of the file.
-
-It is expected that there are zero or one level 1 heading (e.g., `# Heading`).
+**md-toc-cli** creates table of contents from level 2-6 headings (e.g., `## Heading`, `### Heading` etc.) and inserts it after level 1 heading or at the beginning of the file.
+Zero or one level 1 heading is expected (e.g., `# Heading`).
 
 HTML anchor elements are added to level 1-6 headings to make table of content items clickable, e.g. `<a id="..."></a>`.
 
@@ -28,21 +28,20 @@ Anchor at level 1 heading allows creating [Back to top](#0) links as `[Back to t
 
 ## <a id="2"></a>Usage
 
-### <a id="2-1"></a>CLI
+**md-toc-cli** is available as [npm package](https://www.npmjs.com/package/md-toc-cli) and [Docker image](https://hub.docker.com/r/eugenekhyst/md-toc-cli).
 
-1. Make sure Node.js 18.x LTS or newer is installed.
-2. Install md-toc-cli as a global package
+### <a id="2-1"></a>Docker
+
+When running **md-toc-cli** using Docker, mount the directory containing the Markdown files as a volume.
+
+1. Insert table of contents to the `README.md` file in the current directory
    ```bash
-   npm i -g md-toc-cli
+   docker run --rm -v .:/markdown eugenekhyst/md-toc-cli -i README.md
    ```
-3. Insert table of contents to the `README.md` file in the current directory
-   ```bash
-   md-toc-cli -i README.md
-   ```
-4. Read the manual
+2. Read the manual
 
    ```bash
-   $ md-toc-cli --help
+   docker run --rm -v .:/markdown eugenekhyst/md-toc-cli --help
    ```
 
    ```
@@ -71,9 +70,30 @@ Anchor at level 1 heading allows creating [Back to top](#0) links as `[Back to t
                              with ..."                   [boolean] [default: false]
    ```
 
-### <a id="2-2"></a>npm package
+### <a id="2-2"></a>npm
+
+When running **md-toc-cli** using Node.js, install the package globally for convenience.
 
 1. Make sure Node.js 18.x LTS or newer is installed.
+2. Install **md-toc-cli** as a global package
+   ```bash
+   npm i -g md-toc-cli
+   ```
+3. Insert table of contents to the `README.md` file in the current directory
+   ```bash
+   md-toc-cli -i README.md
+   ```
+4. Read the manual
+
+   ```bash
+   $ md-toc-cli --help
+   ```
+
+### <a id="2-3"></a>Programmatic
+
+**md-toc-cli** can be used as a library in JavaScript and TypeScript projects.
+
+1. Make sure Node.js 18 or newer is installed.
 2. Install md-toc-cli
    ```bash
    npm i md-toc-cli
@@ -139,18 +159,6 @@ Anchor at level 1 heading allows creating [Back to top](#0) links as `[Back to t
 
    ```markdown
    # <a id="0"></a>Heading 1
-
-   - [Heading 2a](#1)
-     - [Heading 3aa](#1-1)
-       - [Heading 4a](#1-1-1)
-         - [Heading 5a](#1-1-1-1)
-           - [Heading 6a](#1-1-1-1-1)
-     - [Heading 3ab](#1-2)
-   - [Heading 2b](#2)
-     - [Heading 3b](#2-1)
-       - [Heading 4b](#2-1-1)
-   - [Heading 2c](#3)
-     - [Heading 3c](#3-1)
 
    <!-- Table of contents is made with https://github.com/eugene-khyst/md-toc-cli -->
 

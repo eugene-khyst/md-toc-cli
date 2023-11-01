@@ -5,10 +5,12 @@
   "type": "module",
   "bin": "./src/bin/index.js",
   "main": "./src/lib/index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "lint": "eslint .; prettier --check .",
     "format": "prettier --write . && eslint --fix .",
     "test": "mocha",
+    "types": "tsc && prettier --write ./types/",
     "start": "./src/bin/index.js",
     "prepare": "husky install"
   },
@@ -32,16 +34,17 @@
   },
   "homepage": "https://github.com/eugene-khyst/md-toc-cli#readme",
   "dependencies": {
-    "yargs": "^17.7.1"
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "chai": "^4.3.7",
-    "eslint": "^8.35.0",
+    "chai": "^4.3.10",
+    "eslint": "^8.52.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.7.0",
-    "eslint-plugin-import": "^2.27.5",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
     "husky": "^8.0.3",
     "mocha": "^10.2.0",
-    "prettier": "^2.8.4"
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
   }
 }
