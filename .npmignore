@@ -7,4 +7,5 @@ tsconfig.json
 .nvmrc
 .husky
 .vscode
+.github
 md-toc-cli.cast
