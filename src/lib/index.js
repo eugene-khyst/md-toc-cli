@@ -3,10 +3,10 @@ import { EOL } from 'os';
 
 /**
  * Insert the substring B into string A at a specific position, optionally deleting some characters from string A.
- * @param {string} str - The original string to insert into.
- * @param {number} start - The position to insert at.
- * @param {number} delCount - The number of characters in the original string to delete.
- * @param {string} substr - the substring to insert.
+ * @param {string} str The original string to insert into.
+ * @param {number} start The position to insert at.
+ * @param {number} delCount The number of characters in the original string to delete.
+ * @param {string} substr The substring to insert.
  * @returns
  */
 const insertSubstring = (str, start, delCount, substr) =>
@@ -19,11 +19,17 @@ const attributionRegExp = /^<!-- Table of contents is made with (.+) -->/;
 /**
  * The configuration for the TOC.
  * @typedef {Object} Options
- * @property {number} tabWidth - The number of spaces per indentation-level.
- * @property {number} listItemSymbol - Symbol used in front of line items to create an unordered list.
- * @property {boolean} noAttribution - Add or not an attribution "Table of contents is made with ...".
- * @property {boolean} inPlace - Edit files in place or print the result to console.
- * @property {string} suffix - The extension of a backup copy. If no extension is supplied, the original file is overwritten without making a backup.
+ * @property {number} tabWidth The number of spaces per indentation-level.
+ * @property {number} listItemSymbol Symbol used in front of line items to create an unordered list.
+ * @property {boolean} noAttribution Add or not an attribution "Table of contents is made with ...".
+ * @property {boolean} inPlace Edit files in place or print the result to console.
+ * @property {string} suffix The extension of a backup copy. If no extension is supplied, the original file is overwritten without making a backup.
+ */
+
+/**
+ * @constant
+ * @type {Options}
+ * @default
  */
 export const defaultOptions = {
   tabWidth: 2,
@@ -35,9 +41,9 @@ export const defaultOptions = {
 
 /**
  * Insert or update a table of contents for a Markdown content.
- * @param {string} content - A Markdown content
- * @param {Options} options - An {@link Options} object.
- * @returns {string} - The Markdown content with the inserted or updated TOC.
+ * @param {string} content A Markdown content
+ * @param {Options} options An {@link Options} object.
+ * @returns {string} The Markdown content with the inserted or updated TOC.
  */
 export const insertOrUpdateToc = (content, options = {}) => {
   const { tabWidth, listItemSymbol, noAttribution } = {

@@ -1,0 +1,11 @@
+{
+  "include": ["src/lib/*"],
+  "compilerOptions": {
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "types",
+    "declarationMap": true,
+    "lib": ["ES2022"]
+  }
+}

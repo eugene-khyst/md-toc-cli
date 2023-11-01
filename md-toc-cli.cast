@@ -1,4 +1,4 @@
-{"version": 2, "width": 81, "height": 41, "timestamp": 1686946703, "idle_time_limit": 5.0, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}, "title": "markdown-toc"}
+{"version": 2, "width": 81, "height": 41, "timestamp": 1686946703, "idle_time_limit": 5.0, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}, "title": "md-toc-cli"}
 [0.315053, "o", "\u001b[?2004h\u001b[01;34mmarkdown-toc\u001b[00m$ "]
 [0.970348, "o", "c"]
 [1.210112, "o", "a"]

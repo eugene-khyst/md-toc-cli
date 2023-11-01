@@ -1,5 +1,10 @@
-.vscode
 test
+package-lock.json
+tsconfig.json
 .eslintrc.cjs
 .prettierrc.cjs
 .mocharc.cjs
+.nvmrc
+.husky
+.vscode
+md-toc-cli.cast
