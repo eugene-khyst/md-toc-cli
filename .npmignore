@@ -1,11 +1,13 @@
 test
 package-lock.json
 tsconfig.json
-.eslintrc.cjs
-.prettierrc.cjs
-.mocharc.cjs
+.eslintrc.json
+.prettierrc.json
+.mocharc.json
 .nvmrc
 .husky
 .vscode
 .github
+.dockerignore
+Dockerfile
 md-toc-cli.cast
