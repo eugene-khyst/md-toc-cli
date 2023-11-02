@@ -1,6 +1,6 @@
 {
   "name": "md-toc-cli",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Automatically insert or update a clickable table of contents (TOC) into your Markdown documents based on its headings using CLI or JavaScript module.",
   "type": "module",
   "bin": "./src/bin/index.js",
