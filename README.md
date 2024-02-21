@@ -160,6 +160,18 @@ When running **md-toc-cli** using Node.js, install the package globally for conv
    ```markdown
    # <a id="0"></a>Heading 1
 
+   - [Heading 2a](#1)
+     - [Heading 3aa](#1-1)
+       - [Heading 4a](#1-1-1)
+         - [Heading 5a](#1-1-1-1)
+           - [Heading 6a](#1-1-1-1-1)
+     - [Heading 3ab](#1-2)
+   - [Heading 2b](#2)
+     - [Heading 3b](#2-1)
+       - [Heading 4b](#2-1-1)
+   - [Heading 2c](#3)
+     - [Heading 3c](#3-1)
+   
    <!-- Table of contents is made with https://github.com/eugene-khyst/md-toc-cli -->
 
    ## <a id="1"></a>Heading 2a
